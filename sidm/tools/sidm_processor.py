@@ -31,12 +31,14 @@ class SidmProcessor(processor.ProcessorABC):
         channel_names,
         hist_collection_names,
         selections_cfg="../configs/selections.yaml",
-        histograms_cfg="../configs/hist_collections.yaml"
+        histograms_cfg="../configs/hist_collections.yaml",
+        unweighted=False
     ):
         self.channel_names = channel_names
         self.hist_collection_names = hist_collection_names
         self.selections_cfg = selections_cfg
         self.histograms_cfg = histograms_cfg
+        self.unweighted = unweighted
 
     def process(self, events):
         """Apply selections, make histograms and cutflow"""
@@ -66,7 +68,11 @@ class SidmProcessor(processor.ProcessorABC):
 
             # fill all hists
             sel_objs["ch"] = channel.name
-            evt_weights = events.weightProduct[channel.all_evt_cuts.all(*channel.evt_cuts)]
+            if self.unweighted:
+                evt_weights =  ak.ones_like(events.weightProduct[channel.all_evt_cuts.all(*channel.evt_cuts)])
+            else:
+                evt_weights = events.weightProduct[channel.all_evt_cuts.all(*channel.evt_cuts)]
+            
             for h in hists.values():
                 h.fill(sel_objs, evt_weights)
 

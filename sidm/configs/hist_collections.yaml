@@ -22,6 +22,7 @@ photon_base: &photon_base
 muon_base: &muon_base
   - "muon_n"
   - "muon_pt"
+  - "muon_d0"
   - "muon_eta_phi"
 
 dsaMuon_base: &dsaMuon_base
@@ -90,6 +91,7 @@ abcd_base: &abcd_base
 gen_base: &gen_base
   - "gen_abspid"
   - "genE_pt"
+  - "genE_eta_phi"
   - "genE0_pt"
   - "genE1_pt"
   - "genE0_pt_highRange"
@@ -97,6 +99,7 @@ gen_base: &gen_base
   - "genE_genE_dR"
   - "genE_genE_pt"
   - "genMu_pt"
+  - "genMu_eta_phi"
   - "genMu0_pt"
   - "genMu1_pt"
   - "genMu0_pt_highRange"

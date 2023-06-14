@@ -1,7 +1,123 @@
 # Config to specify paths to all availabe ntuples
 # Automatically generated using sidm/scripts/add_ntuples.py
 
-
+#Ultra legacy test ntuples
+ffntuple_UL:
+  path: root://xcache//store/group/lpcmetx/SIDM/ffNtupleUL/2018/
+  samples:
+    2Mu2E_100GeV_0p8GeV_bestGuess_6:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_bestGuess_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-6/crab_2018_SIDM_UL_bestGuess_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-6__230609-062549/230609_112709/0000/
+    2Mu2E_100GeV_0p8GeV_bestGuess_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_bestGuess_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_bestGuess_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_112637/0000/      
+    2Mu2E_100GeV_0p8GeV_fromPR_0p6:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_fromPR_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-0p6/crab_2018_SIDM_UL_fromPR_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-0p6__230609-062549/230609_112742/0000/
+    2Mu2E_100GeV_0p8GeV_fromPR_6:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_fromPR_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-6/crab_2018_SIDM_UL_fromPR_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-6__230609-062549/230609_112814/0000/
+    2Mu2E_100GeV_0p8GeV_fromPR_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_fromPR_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_fromPR_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_112847/0000/
+    2Mu2E_100GeV_0p8GeV_fromPRv2_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_fromPRv2_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_fromPRv2_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_112919/0000/
+    2Mu2E_100GeV_0p8GeV_noImportSM_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_noImportSM_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_noImportSM_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_112951/0000/
+    2Mu2E_100GeV_0p8GeV_noMatching_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_noMatching_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_noMatching_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_113024/0000/
+    2Mu2E_100GeV_0p8GeV_removeDefaults_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_removeDefaults_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_removeDefaults_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_113057/0000/
+    2Mu2E_100GeV_0p8GeV_removeNewg_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_removeNewg_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_removeNewg_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_113129/0000/
+    2Mu2E_100GeV_0p8GeV_updatePtDr_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_updatePtDr_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_updatePtDr_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_113202/0000/
+    2Mu2E_100GeV_0p8GeV_xqcut_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_xqcut15_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_xqcut15_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-062549/230609_113234/0000/
+    2Mu2E_100GeV_0p8GeV_massiveB_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_massiveB_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_massiveB_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-115540/230609_165622/0000/
+    2Mu2E_100GeV_0p8GeV_removeNewgToF_60:
+      files:
+      - ffNtuple_1.root
+      - ffNtuple_2.root
+      - ffNtuple_3.root
+      - ffNtuple_4.root
+      - ffNtuple_5.root
+      path: SIDM_UL_removeNewgToF_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60/crab_2018_SIDM_UL_removeNewgToF_BsTo2DpTo2Mu2e_MBs-100_MDp-0p8_ctau-60__230609-115540/230609_165654/0000/
+      
 # Most recent ntuples from Weinan -- only includes 2mu2e
 ffntuple_v4:
   path: root://xcache//store/group/lpcmetx/SIDM/ffNtupleV4/2018/
