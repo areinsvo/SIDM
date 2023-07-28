@@ -2,6 +2,13 @@
 # Automatically generated using sidm/scripts/add_ntuples.py
 
 #Ultra legacy test ntuples
+ffntuple_UL_Sunil:
+  path: root://xcache//store/group/lpcmetx/SIDM/ULSignalSamples/ffNtuple/2018_v1/
+  samples: 
+    4Mu_1000GeV_0p3GeV_0p24:
+      files: 
+      - ffNtuple_SIDM_BsTo2DpTo4Mu_MBs-1000_MDp-0p3_ctau-0p24.root
+      path: SIDM_BsTo2DpTo4Mu_MBs-1000_MDp-0p3_ctau-0p24/ 
 ffntuple_UL:
   path: root://xcache//store/group/lpcmetx/SIDM/ffNtupleUL/2018/
   samples:

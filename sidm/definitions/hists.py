@@ -90,7 +90,7 @@ hist_defs = {
     # pfmuon
     "muon_n": h.Histogram(
         [
-            h.Axis(hist.axis.Integer(0, 10, name="muon_n"),
+            h.Axis(hist.axis.Integer(0, 30, name="muon_n"),
                    lambda objs, mask: ak.num(objs["muons"])),
         ],
     ),
@@ -105,6 +105,19 @@ hist_defs = {
             h.Axis(hist.axis.Regular(100, 0, 20, name="muon_d0"),
                    lambda objs, mask: objs["muons"].d0),
         ],
+    ),
+    "muon_d0_zoom": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100, 0, 0.4, name="muon_d0"),
+                   lambda objs, mask: objs["muons"].d0),
+        ],
+    ),
+    "muon0_d0_zoom": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(50, 0, 0.01, name="muon0_d0"),
+                   lambda objs, mask: abs(objs["muons"][mask, 0:2].d0)),
+        ],
+        evt_mask=lambda objs: ak.num(objs["muons"]) > 1,
     ),
     "muon_eta_phi": h.Histogram(
         [

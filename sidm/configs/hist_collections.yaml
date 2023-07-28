@@ -23,6 +23,8 @@ muon_base: &muon_base
   - "muon_n"
   - "muon_pt"
   - "muon_d0"
+  - "muon_d0_zoom"
+  - "muon0_d0_zoom"
   - "muon_eta_phi"
 
 dsaMuon_base: &dsaMuon_base
