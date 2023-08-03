@@ -45,6 +45,10 @@ def dR(obj1, obj2):
     """Return dR between obj1 and the nearest obj2"""
     return obj1.nearest(obj2, return_metric=True)[1]
 
+def lxy(obj):
+    """Return transverse distance between production and decay vertices"""
+    return (obj.dauvtx - obj.vtx).r
+
 def set_plot_style(style='cms', dpi=50):
     """Set plotting style using mplhep"""
     if style == 'cms':
@@ -81,3 +85,7 @@ def make_fileset(samples, ntuple_version, location_cfg="../configs/ntuple_locati
         file_list = [base_path + f for f in locations["samples"][sample]["files"]]
         fileset[sample] = file_list
     return fileset
+
+def check_bit(array, bit_num):
+    """Return boolean stored in the bit_numth bit of array"""
+    return (array & pow(2, bit_num)) > 0
