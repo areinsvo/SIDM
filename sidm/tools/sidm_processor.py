@@ -166,8 +166,7 @@ class SidmProcessor(processor.ProcessorABC):
         # all objects must have the same fields to later concatenate and cluster them
         # set fields that aren't available for a given object to be None
         # these additional fields will be removed after clustering
-        nan = ak.full_like(shape, None)
-        forms = {f: objs[collection][f] if f in objs[collection].fields else nan for f in fields}
+        forms = {f: objs[collection][f] if f in objs[collection].fields else -1*shape for f in fields}
         forms["part_type"] = objs[collection]["type"] if type_id is None else type_id*shape
         forms["mass"] = objs[collection]["mass"] if mass is None else mass*shape
         return vector.zip(forms)
@@ -185,6 +184,7 @@ class SidmProcessor(processor.ProcessorABC):
         collections = ["muons", "dsaMuons", "electrons", "photons"]
         fields = [objs[c].fields for c in collections]
         all_fields = list(set().union(*fields))
+        
         muon_inputs = self.make_vector(objs, "muons", all_fields,  type_id=3)
         dsa_inputs = self.make_vector(objs, "dsaMuons", all_fields, type_id=8, mass=0.106)
         ele_inputs = self.make_vector(objs, "electrons", all_fields, type_id=2)
