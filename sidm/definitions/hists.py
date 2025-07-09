@@ -387,6 +387,23 @@ hist_defs = {
     "dsaMuon_eta_phi": obj_eta_phi("dsaMuons"),
     "dsaMuon_absD0": obj_attr("dsaMuons", "dxy", absval=True, xmax=500),
     "dsaMuon_absD0_lowRange": obj_attr("dsaMuons", "dxy", absval=True, xmax=10),
+
+    "test_photonsMatchedToElectrons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100,0, 500, name="test_photonsMatchedToElectrons"),
+                   lambda objs, mask: objs["electrons"].matched_photon.pt),
+        ],
+    ),
+    
+    "dsaMuon_ptMatchedMuons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(100,0, 500, name="dsaMuon_ptMatchedMuons"),
+                   lambda objs, mask: objs["dsaMuons"].matched_muons[:,:,:1].pt),#Also works! idk if the result makes sense, but it runs
+#                   lambda objs, mask: ak.num(objs["dsaMuons"].matched_muons.pt,axis=2)), ##This works! (and gives 5 for everything)
+#                  lambda objs, mask: ak.num(ak.drop_none(objs["dsaMuons"].matched_muons.pt),axis=2)), #Doesn't work
+        ],
+    ),
+    
     "dsaMuon_nearGenA_n": h.Histogram(
         [
             # number of muons within dR=0.5 of a genA that decays to muons

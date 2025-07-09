@@ -72,6 +72,8 @@ dsaMuon_base: &dsaMuon_base
   - "dsaMuon_absD0_lowRange"
   - "dsaMuon_muon_dR"
   - "dsaMuon_muon_dR_lowRange"
+  - "dsaMuon_ptMatchedMuons"
+  - "test_photonsMatchedToElectrons"
 
 lj_base: &lj_base
   - "lj_n"

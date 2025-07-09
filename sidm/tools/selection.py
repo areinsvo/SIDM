@@ -30,8 +30,8 @@ class Selection:
                 print("Applying cut:", cut)
             try:
                 self.all_evt_cuts.add(cut, evt_cut_defs[cut](objs))
-            except:
-                print(f"Warning: Unable to evaluate {cut} Skipping.")
+            except Exception as e:
+                print(f"Warning: Unable to evaluate {cut} Skipping.",e)
 
         # apply event cuts to object collections
         sel_objs = {}
@@ -66,10 +66,23 @@ class JaggedSelection:
                       f"The following cuts will not be applied: {cuts}")
                 continue
 
+            if obj  == "muons":
+                if self.verbose:
+                    print(f"Applying cuts to the matched muons of DSA Muons")
+                for cut in cuts:
+                    try:
+                        #sel_objs["dsaMuons"]=sel_objs["dsaMuons"] #This works
+                        #sel_objs["dsaMuons"].matched_muons = sel_objs["dsaMuons"].matched_muons #This doesn't
+                        sel_objs["dsaMuons"].matched_muons = sel_objs["dsaMuons"].matched_muons[obj_cut_defs[obj][cut](sel_objs["dsaMuons"].matched_muons)]
+                    except Exception as e:
+                        print(f"Warning: Unable to apply {cut} for dsaMuons.matched_muons. Skipping.... {e}")
+            
             for cut in cuts:
                 if self.verbose:
                     print(f"Applying {obj} {cut}")
                 try:
+                    # Might need to change to the following, depending on how we apply the cuts to the matched_muons
+                    #  sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs[obj])]
                     sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs)]
                 except:
                     print(f"Warning: Unable to apply {cut} for {obj}. Skipping.")

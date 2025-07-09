@@ -61,10 +61,10 @@ class SidmProcessor(processor.ProcessorABC):
             # pt order
             objs[obj_name] = self.order(objs[obj_name])
 
-            # use nanoevents.Muon behaviors for dsa muons
-            if obj_name == "dsaMuons":
-                forms = {f: objs[obj_name][f] for f in objs[obj_name].fields}
-                objs[obj_name] = ak.zip(forms, with_name="Muon", behavior=nanoaod.behavior)
+            # # use nanoevents.Muon behaviors for dsa muons
+            # if obj_name == "dsaMuons":
+            #     forms = {f: objs[obj_name][f] for f in objs[obj_name].fields}
+            #     objs[obj_name] = ak.zip(forms, with_name="Muon", behavior=nanoaod.behavior)
 
             # add lxy attribute to particles with children
             if hasattr(obj, "children"):
@@ -184,6 +184,10 @@ class SidmProcessor(processor.ProcessorABC):
         collections = ["muons", "dsaMuons", "electrons", "photons"]
         fields = [objs[c].fields for c in collections]
         all_fields = list(set().union(*fields))
+        all_fields.remove('muonIdxG')
+        all_fields.remove('dsaIdxG')
+
+        print(all_fields)
         
         muon_inputs = self.make_vector(objs, "muons", all_fields,  type_id=3)
         dsa_inputs = self.make_vector(objs, "dsaMuons", all_fields, type_id=8, mass=0.106)
@@ -210,10 +214,22 @@ class SidmProcessor(processor.ProcessorABC):
         consts = cluster.constituents()
         common_fields = list(set(fields[0]).intersection(*fields[1:]))
         muon_fields = list(set(objs["muons"].fields).intersection(objs["dsaMuons"].fields))
+    ######
+        ## FIX ME! Won't be able to access the dsaMuon matches from the LJ constituent muon, and vice versa 
+        ## (can only access it from the original muon collection in objects)
+        safe_muon_fields = list(objs["muons"].fields) 
+        safe_muon_fields.remove('dsaIdxG')
+        safe_dsa_fields = list(objs["dsaMuons"].fields)
+        safe_dsa_fields.remove('muonIdxG') 
         ljs["constituents"] = self.make_constituent(consts, [2, 3, 4, 8], "PtEtaPhiMCollection", common_fields)
         ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
-        ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", objs["muons"].fields)
-        ljs["dsaMuons"] = self.make_constituent(consts, [8], "Muon", objs["dsaMuons"].fields)
+        #ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", objs["muons"].fields)
+        ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", safe_muon_fields)
+        #ljs["dsaMuons"] = self.make_constituent(consts, [8], "DSAMuon", objs["dsaMuons"].fields)
+    ######
+
+        
+        ljs["dsaMuons"] = self.make_constituent(consts, [8], "DSAMuon", safe_dsa_fields)
         ljs["electrons"] = self.make_constituent(consts, [2], "Electron", objs["electrons"].fields)
         ljs["photons"] = self.make_constituent(consts, [4], "Photon", objs["photons"].fields)
 

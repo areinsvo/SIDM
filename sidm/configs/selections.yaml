@@ -5,6 +5,25 @@
 
 
 # Cuts to apply to objects that are clustered into lepton jets
+muon_only: 
+  obj_cuts: 
+    muons: 
+      - "looseID"
+      - "pT > 5 GeV"
+      - "|eta| < 2.4"
+    photons: 
+      - "pT > 20 GeV"
+      - "looseID"
+  evt_cuts: 
+    - "PV filter"
+    
+keep_all_events:
+  obj_cuts:
+    photons: 
+      - "pT > 20 GeV"
+  evt_cuts:
+    - "PV filter"
+    
 ljsource_cuts: &ljsource_cuts
   obj_cuts: &obj_ljsource_cuts
     electrons: &electrons_ljsource_cuts

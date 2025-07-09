@@ -136,6 +136,8 @@ obj_cut_defs = {
         "missing_hits == 1" : lambda objs: objs["electrons"].lostHits == 1,
     },
     "muons": {
+        #Tested the following to try to enable us to apply these cuts to muons *and* matched_muons associated to dsas
+        #"looseID": lambda objs: objs.looseId,
         "looseID": lambda objs: objs["muons"].looseId,
         "pT > 5 GeV": lambda objs: objs["muons"].pt > 5,
         "|eta| < 2.4": lambda objs: abs(objs["muons"].eta) < 2.4,
