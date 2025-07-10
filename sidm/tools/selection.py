@@ -66,24 +66,59 @@ class JaggedSelection:
                       f"The following cuts will not be applied: {cuts}")
                 continue
 
-            if obj  == "muons":
-                if self.verbose:
-                    print(f"Applying cuts to the matched muons of DSA Muons")
-                for cut in cuts:
-                    try:
-                        #sel_objs["dsaMuons"]=sel_objs["dsaMuons"] #This works
-                        #sel_objs["dsaMuons"].matched_muons = sel_objs["dsaMuons"].matched_muons #This doesn't
-                        sel_objs["dsaMuons"].matched_muons = sel_objs["dsaMuons"].matched_muons[obj_cut_defs[obj][cut](sel_objs["dsaMuons"].matched_muons)]
-                    except Exception as e:
-                        print(f"Warning: Unable to apply {cut} for dsaMuons.matched_muons. Skipping.... {e}")
-            
             for cut in cuts:
                 if self.verbose:
                     print(f"Applying {obj} {cut}")
                 try:
-                    # Might need to change to the following, depending on how we apply the cuts to the matched_muons
-                    #  sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs[obj])]
-                    sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs)]
+                    # Eventually, will need to use the first syntax for all cuts 
+                    # (and will need to change every cut definition in cuts.py)
+                    if obj  == "muons":
+                        sel_objs[obj] = sel_objs[obj][ obj_cut_defs[obj][cut](sel_objs,sel_objs[obj]) ]
+                    else:
+                        sel_objs[obj] = sel_objs[obj][obj_cut_defs[obj][cut](sel_objs)]
                 except:
                     print(f"Warning: Unable to apply {cut} for {obj}. Skipping.")
         return sel_objs
+
+class NestedSelection:
+    """Class to represent the collection of cuts that define a NestedSelection
+
+    A NestedSelection consists of object-level cuts to the matched objects 
+    (for example, the pf muons matched to dsa muons).
+    
+    All available cuts are defined in sidm.definitions.cuts. The specific cuts that define each
+    selection are accepted by NestedSelection() as lists of strings.
+    """
+
+    def __init__(self, cuts, verbose=False):
+        self.obj_cuts = cuts # dict of cuts to be applied
+        self.verbose = verbose
+    
+    def apply_obj_cuts(self, all_objs, nested_objs, obj_name): 
+        """Apply object cuts sequentially"""
+        # For example, all_objs would be the full sel_objs in the processor
+        # and nested_objs could be sel_objs["dsaMuons"].matched_muons in the processor
+        # Then obj_name would be "muons", because we want the *muon* cuts applied to these objects
+        #sel_objs = objs.copy() 
+        sel_objs = nested_objs
+        
+        for obj, cuts in self.obj_cuts.items():
+            if obj == obj_name:
+                
+                if self.verbose: print(f"Applying cuts to the nested {obj} collection")
+
+                for cut in cuts:
+                    try:
+                        #sel_objs["dsaMuons"]=sel_objs["dsaMuons"] #This works
+                        #sel_objs["dsaMuons"].matched_muons = sel_objs["dsaMuons"].matched_muons #This doesn't
+                        sel_objs = sel_objs[ obj_cut_defs[obj][cut](all_objs, sel_objs)]
+                    except Exception as e:
+                        print(f"Warning: Unable to apply {cut} for nested {obj_name} collection. Skipping.... {e}")
+                return sel_objs
+ 
+
+        if self.verbose: 
+            print(f"Warning: Did not find cuts for {obj_name} in the config. "
+                      f"No cuts will be applied to the nested objects")
+        return sel_objs
+ 

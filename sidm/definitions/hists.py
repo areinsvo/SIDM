@@ -398,7 +398,7 @@ hist_defs = {
     "dsaMuon_ptMatchedMuons": h.Histogram(
         [
             h.Axis(hist.axis.Regular(100,0, 500, name="dsaMuon_ptMatchedMuons"),
-                   lambda objs, mask: objs["dsaMuons"].matched_muons[:,:,:1].pt),#Also works! idk if the result makes sense, but it runs
+                   lambda objs, mask: objs["dsaMuons"].good_matched_muons[:,:,:1].pt),#Also works! idk if the result makes sense, but it runs
 #                   lambda objs, mask: ak.num(objs["dsaMuons"].matched_muons.pt,axis=2)), ##This works! (and gives 5 for everything)
 #                  lambda objs, mask: ak.num(ak.drop_none(objs["dsaMuons"].matched_muons.pt),axis=2)), #Doesn't work
         ],

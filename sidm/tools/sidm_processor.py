@@ -80,6 +80,7 @@ class SidmProcessor(processor.ProcessorABC):
                 counts = ak.ones_like(objs[obj_name].x, dtype=np.int32)
                 objs[obj_name] = ak.unflatten(objs[obj_name], counts)
 
+        
         cutflows = {}
         counters = {}
 
@@ -92,10 +93,15 @@ class SidmProcessor(processor.ProcessorABC):
         # loop through lj reco choices and channels, treating each lj+channel pair as a unique Selection
         for channel, cuts in ch_cuts.items():
             obj_selection = selection.JaggedSelection(cuts["obj"], self.verbose)
+            nested_selection = selection.NestedSelection(cuts["obj"], self.verbose)
 
             for lj_reco in self.lj_reco_choices:
                 # apply pre-LJ object selection
                 sel_objs = obj_selection.apply_obj_cuts(objs)
+
+                # apply selections on matched_muons within the DSA muons and PF muons
+                # should maybe add protection here
+                sel_objs["dsaMuons"]["good_matched_muons"] = nested_selection.apply_obj_cuts(sel_objs, sel_objs["dsaMuons"].matched_muons, "muons" )
 
                 # reconstruct lepton jets
                 sel_objs["ljs"] = self.build_lepton_jets(sel_objs, float(lj_reco))
@@ -186,6 +192,7 @@ class SidmProcessor(processor.ProcessorABC):
         all_fields = list(set().union(*fields))
         all_fields.remove('muonIdxG')
         all_fields.remove('dsaIdxG')
+        all_fields.remove('good_matched_muons')
 
         print(all_fields)
         
@@ -221,6 +228,7 @@ class SidmProcessor(processor.ProcessorABC):
         safe_muon_fields.remove('dsaIdxG')
         safe_dsa_fields = list(objs["dsaMuons"].fields)
         safe_dsa_fields.remove('muonIdxG') 
+        safe_dsa_fields.remove('good_matched_muons')
         ljs["constituents"] = self.make_constituent(consts, [2, 3, 4, 8], "PtEtaPhiMCollection", common_fields)
         ljs["muons"] = self.make_constituent(consts, [3, 8], "Muon", muon_fields)
         #ljs["pfMuons"] = self.make_constituent(consts, [3], "Muon", objs["muons"].fields)
