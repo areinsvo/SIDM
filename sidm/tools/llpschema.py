@@ -6,6 +6,7 @@ class LLPNanoAODSchema(NanoAODSchema):
     """
     mixins = {
         **NanoAODSchema.mixins,
+        "Muon": "LLPMuon",
         "DSAMuon": "DSAMuon",
     }
 
@@ -70,9 +71,9 @@ class LLPNanoAODSchema(NanoAODSchema):
                 self.muonMatch5[:, :, numpy.newaxis],
                 ], axis=2) # Result: (events, dsa_muons, 5)
 
-                dsa_matches = self._events().Muon._apply_global_index(self.muonIdxG)
+                pf_matches = self._events().Muon._apply_global_index(self.muonIdxG)
                 
-                concat = awkward.with_field(dsa_matches, muon_match_total, where="numMatch")
+                concat = awkward.with_field(pf_matches, muon_match_total, where="numMatch")
                 
                 return concat
                 
@@ -89,9 +90,9 @@ class LLPNanoAODSchema(NanoAODSchema):
                 dask_array.muonMatch5[:, :, numpy.newaxis],
                 ], axis=2) # Result: (events, dsa_muons, 5)
 
-                dsa_matches = dask_array._events().Muon._apply_global_index(dask_array.muonIdxG)
+                pf_matches = dask_array._events().Muon._apply_global_index(dask_array.muonIdxG)
                 
-                concat = awkward.with_field(dsa_matches, muon_match_total, where="numMatch")
+                concat = awkward.with_field(pf_matches, muon_match_total, where="numMatch")
                 
                 return concat
 
@@ -106,5 +107,58 @@ class LLPNanoAODSchema(NanoAODSchema):
         DSAMuonArray.ProjectionClass3D = vector.ThreeVectorArray  # noqa: F821
         DSAMuonArray.ProjectionClass4D = DSAMuonArray  # noqa: F821
         DSAMuonArray.MomentumClass = vector.LorentzVectorArray  # noqa: F821
+
+        ##### Now update standard Muon class
+        nanoaod.behavior.update(awkward._util.copy_behaviors("Muon", "LLPMuon", nanoaod.behavior))
+
+        @awkward.mixin_class(nanoaod.behavior)
+        class LLPMuon(candidate.PtEtaPhiMCandidate, base.NanoCollection, base.Systematic):
+            """LLPNanoAOD Muon object"""
+            @dask_property
+            def matched_dsa_muons(self):
+                #return self._events().Muon._apply_global_index(self.muonIdxG)
+                
+                """The matched PF muons (up to 5) as determined by the NanoAOD branch muonMatchNidx)"""
+                muon_match_total = awkward.concatenate([
+                self.dsaMatch1[:, :, numpy.newaxis],
+                self.dsaMatch2[:, :, numpy.newaxis],
+                self.dsaMatch3[:, :, numpy.newaxis],
+                self.dsaMatch4[:, :, numpy.newaxis],
+                self.dsaMatch5[:, :, numpy.newaxis],
+                ], axis=2) # Result: (events, dsa_muons, 5)
+
+                dsa_matches = self._events().DSAMuon._apply_global_index(self.dsaIdxG)
+                
+                concat = awkward.with_field(dsa_matches, muon_match_total, where="numMatch")
+                
+                return concat
+                
+        
+            @matched_dsa_muons.dask
+            def matched_dsa_muons(self, dask_array):
+                # return dask_array._events().Muon._apply_global_index(dask_array.muonIdxG)
+                
+                muon_match_total = awkward.concatenate([
+                dask_array.dsaMatch1[:, :, numpy.newaxis],
+                dask_array.dsaMatch2[:, :, numpy.newaxis],
+                dask_array.dsaMatch3[:, :, numpy.newaxis],
+                dask_array.dsaMatch4[:, :, numpy.newaxis],
+                dask_array.dsaMatch5[:, :, numpy.newaxis],
+                ], axis=2) # Result: (events, dsa_muons, 5)
+
+                dsa_matches = dask_array._events().DSAMuon._apply_global_index(dask_array.dsaIdxG)
+                
+                concat = awkward.with_field(dsa_matches, muon_match_total, where="numMatch")
+                
+                return concat
+
+        nanoaod._set_repr_name("LLPMuon")
+        
+        LLPMuonArray.ProjectionClass2D = vector.TwoVectorArray  # noqa: F821
+        LLPMuonArray.ProjectionClass3D = vector.ThreeVectorArray  # noqa: F821
+        LLPMuonArray.ProjectionClass4D = LLPMuonArray  # noqa: F821
+        LLPMuonArray.MomentumClass = vector.LorentzVectorArray  # noqa: F821
+
+        
 
         return nanoaod.behavior

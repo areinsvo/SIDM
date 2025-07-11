@@ -62,7 +62,7 @@ class Histogram:
         try:
             fill_args = {a.name: a.fill_func(objs, self.evt_mask(objs)) for a in self.axes}
         except (AttributeError, KeyError, ValueError) as e:
-            print(f"Warning: a histogram with the name {self.name} could not be filled and will be skipped")
+            print(f"Warning: a histogram with the name {self.name} could not be filled and will be skipped... {e}")
             return
 
         # Use last axis to define weight structure to avoid channels axis

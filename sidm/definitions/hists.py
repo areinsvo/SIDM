@@ -353,6 +353,16 @@ hist_defs = {
                    lambda objs, mask: ak.num(matched(objs["muons"], objs["genAs_toMu"], 0.5))),
         ],
     ),
+
+    "pfMuon_numOverlaps_MatchedDSAMuons": h.Histogram(
+        [
+            h.Axis(hist.axis.Regular(10,0, 10, name="pfMuon_numOverlaps_MatchedDSAMuons"),
+                   lambda objs, mask: objs["muons"].matched_dsa_muons[:,:,:1].numMatch),#Also works! idk if the result makes sense, but it runs
+#                   lambda objs, mask: ak.num(objs["dsaMuons"].matched_muons.pt,axis=2)), ##This works! (and gives 5 for everything)
+#                  lambda objs, mask: ak.num(ak.drop_none(objs["dsaMuons"].matched_muons.pt),axis=2)), #Doesn't work
+        ],
+    ),
+    
     # pfmuon-genA
     "muon_nearGenA_n_genA_lxy": h.Histogram(
         [
@@ -380,6 +390,8 @@ hist_defs = {
                    lambda objs, mask: dR(objs["muons"], objs["genMus"]))
         ],
     ),
+
+    
     # dsamuon
     "dsaMuon_n": obj_attr("dsaMuons", "n"),
     "dsaMuon_pt":obj_attr("dsaMuons", "pt", xmax=500),
