@@ -59,12 +59,41 @@ class LLPNanoAODSchema(NanoAODSchema):
             """LLPNanoAOD DSA muon object"""
             @dask_property
             def matched_muons(self):
+                #return self._events().Muon._apply_global_index(self.muonIdxG)
+                
                 """The matched PF muons (up to 5) as determined by the NanoAOD branch muonMatchNidx)"""
-                return self._events().Muon._apply_global_index(self.muonIdxG)
+                muon_match_total = awkward.concatenate([
+                self.muonMatch1[:, :, numpy.newaxis],
+                self.muonMatch2[:, :, numpy.newaxis],
+                self.muonMatch3[:, :, numpy.newaxis],
+                self.muonMatch4[:, :, numpy.newaxis],
+                self.muonMatch5[:, :, numpy.newaxis],
+                ], axis=2) # Result: (events, dsa_muons, 5)
+
+                dsa_matches = self._events().Muon._apply_global_index(self.muonIdxG)
+                
+                concat = awkward.with_field(dsa_matches, muon_match_total, where="numMatch")
+                
+                return concat
+                
         
             @matched_muons.dask
             def matched_muons(self, dask_array):
-                return dask_array._events().Muon._apply_global_index(dask_array.muonIdxG)
+                # return dask_array._events().Muon._apply_global_index(dask_array.muonIdxG)
+                
+                muon_match_total = awkward.concatenate([
+                dask_array.muonMatch1[:, :, numpy.newaxis],
+                dask_array.muonMatch2[:, :, numpy.newaxis],
+                dask_array.muonMatch3[:, :, numpy.newaxis],
+                dask_array.muonMatch4[:, :, numpy.newaxis],
+                dask_array.muonMatch5[:, :, numpy.newaxis],
+                ], axis=2) # Result: (events, dsa_muons, 5)
+
+                dsa_matches = dask_array._events().Muon._apply_global_index(dask_array.muonIdxG)
+                
+                concat = awkward.with_field(dsa_matches, muon_match_total, where="numMatch")
+                
+                return concat
 
             @property
             def mass(self):
