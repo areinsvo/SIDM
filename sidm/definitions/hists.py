@@ -2734,7 +2734,7 @@ hist_defs = {
     ),
     'genA_toE_matched_photons_lxyLowRange': h.Histogram(
         [
-            h.Axis(hist.axis.Regular(30, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
+            h.Axis(hist.axis.Regular(100, 0, 5, name=r"$Z_d$ $L_{xy}$ $(cm)$"),
                    lambda objs, mask: lxy(derived_objs['genAs_toE_matched_photons'](objs,0.4)))
         ],
     ),
