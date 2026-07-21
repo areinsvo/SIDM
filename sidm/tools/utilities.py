@@ -293,6 +293,8 @@ def plot_ratio(num, den, **kwargs):
 
     if "ylim" in kwargs:
         plt.ylim(kwargs["ylim"])
+    if "xlim" in kwargs:
+        plt.xlim(kwargs["xlim"])
     if "ylabel" in kwargs:
         plt.ylabel(kwargs["ylabel"])
     plt.tight_layout()
@@ -306,6 +308,8 @@ def plot_ratio(num, den, **kwargs):
             # raises -- fall back to a Gaussian-propagated ratio.
             eff, errors = _gaussian_ratio(x, den)
         plot(eff, histtype='errorbar', yerr=errors, skip_label=True)
+        if "xlim" in kwargs:
+            plt.xlim(kwargs["xlim"])
 
     ax2.set_ylabel(ratio_ylabel)
     if ratio_ylim is not None:
